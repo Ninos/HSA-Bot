@@ -4,6 +4,7 @@
 Bot for HuChat & IRC with basic functionalities. This bot is coded modular and can be later used for other schools, companies and organizations.
 
 ## Ideas
+- Help
 - Menu
 - News
 - Events

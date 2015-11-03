@@ -5,6 +5,7 @@ Bot for HuChat & IRC with basic functionalities. This bot is coded modular and c
 
 ## Ideas
 - Help
+- Cache
 - Menu
 - News
 - Events

@@ -6,6 +6,7 @@ Bot for HuChat & IRC with basic functionalities. This bot is coded modular and c
 ## Ideas
 - Menu
 - News
+- Events
 - Semester Schedule
 - Timetable
 - ChatMail

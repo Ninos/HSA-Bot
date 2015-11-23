@@ -2,7 +2,8 @@
 
 module.exports = function ( param ) {
 	var config = param.config;
-	var parser = param.parser;
+	var api = param.api;
+	var parse = param.parse;
 
 	var irc = require( 'irc' );
 
@@ -11,7 +12,10 @@ module.exports = function ( param ) {
 	} );
 
 	client.addListener( 'message', function ( from, to, message ) {
-		var args = parser.parse( message );
-		console.log( args );
+		var args = parse.content( message );
+		var module = args.module;
+		var param = args.param;
+
+		api.message(module, param, from, to, false);
 	} );
 }

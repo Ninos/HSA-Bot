@@ -1,0 +1,37 @@
+{
+  "name": "HSA-Bot",
+  "description": "Bot for IRC with basic functionalities. This bot is coded modular and can be later used for other schools, companies and organizations.",
+  "version": "1.0.0",
+  "author": "HSA-Group",
+  "scripts": {
+	"test": "./node_modules/faucet/bin/cmd.js test/test-*.js",
+	"lint": "./node_modules/jscs/bin/jscs --preset=airbnb */*.js"
+  },
+  "contributors": [
+	"Ninos Ego <@Ninos>",
+	"Viktor Werlitz <@Viggyy>"
+	"Dennis Rockstein <@dennisrockstein>"
+	"Que Linh Phan <@quelie>"
+  ],
+  "repository": {
+	"type": "git",
+	"url": "https://github.com/hsa-nodejs-ws1516/hsa-bot"
+  },
+  "bugs": {
+	"mail": "martyn@dollyfish.net.nz",
+	"url": "https://github.com/hsa-nodejs-ws1516/hsa-bot/issues"
+  },
+  "main": "bootstrap.js",
+  "engines": {
+	"node": ">=0.10.0"
+  },
+  "licenses": [
+	{
+	  "type": "GPL",
+	  "url": "https://github.com/hsa-nodejs-ws1516/hsa-bot/issues/raw/master/COPYING"
+	}
+  ],
+  "dependencies": {
+	"irc": "^0.3.9"
+  }
+}

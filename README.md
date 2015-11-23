@@ -5,6 +5,7 @@ Bot for IRC with basic functionalities. This bot is coded modular and can be lat
 
 ## Installation
 ```npm install irc```
+```npm install events```
 
 ## Ideas
 - Menu
@@ -19,8 +20,8 @@ Bot for IRC with basic functionalities. This bot is coded modular and can be lat
 - Help
 - Cache
 
-## Team
-- Ninos Ego (@Ninos)
-- Viktor Werlitz (@Viggyy)
-- Dennis Rockstein (@dennisrockstein)
-- Que Linh Phan (@quelie)
+## Contributors
+- Ninos Ego <@Ninos>
+- Viktor Werlitz <@Viggyy>
+- Dennis Rockstein <@dennisrockstein>
+- Que Linh Phan <@quelie>

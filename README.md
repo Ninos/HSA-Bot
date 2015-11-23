@@ -5,6 +5,7 @@ Bot for IRC with basic functionalities. This bot is coded modular and can be lat
 
 ## Installation
 ```npm install irc```
+
 ```npm install events```
 
 ## Ideas

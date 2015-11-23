@@ -1,11 +1,27 @@
 'use strict';
 
-const config = require( './config.js' );
-const api = require( './lib/api.js' );
-const parse = require( './lib/parse.js' );
+var HSA_Bot = {
+	global: {},
+	modules: [],
+	init: function() {
+		const config = require( './config.js' );
+		const api = require( './lib/api.js' ).init();
+		const parse = require( './lib/parse.js' );
 
-var app = require( './app/irc.js' )( {
-	config: config,
-	api: api,
-	parse: parse
-} );
+		this.global = {
+			config: config,
+			api: api,
+			parse: parse
+		};
+
+		this.load();
+		this.start();
+	},
+	load: function() {
+		require('./module/help.js' ).init( this.global );
+	},
+	start: function() {
+		var app = require( './app/irc.js' ).init( this.global );
+	}
+}
+HSA_Bot.init();

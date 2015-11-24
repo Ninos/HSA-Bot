@@ -7,7 +7,7 @@ module.exports = {
 		this.global = param;
 
 		this.connect();
-		this.listener();
+		this.hooks();
 
 		return this;
 	},
@@ -20,7 +20,7 @@ module.exports = {
 			channels: config.irc.channels,
 		} );
 	},
-	listener: function () {
+	hooks: function () {
 		var that = this;
 
 		var api = this.global.api;
@@ -63,7 +63,7 @@ module.exports = {
 			return message;
 		} );
 
-		api.event.on( 'say', function ( args, content ) {
+		api.event.addListener( 'say', function ( args, content ) {
 			that.client.say( args.to, content );
 		} );
 	},

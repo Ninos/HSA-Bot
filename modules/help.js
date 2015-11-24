@@ -6,14 +6,14 @@ module.exports = {
 	init: function ( param ) {
 		this.global = param;
 
-		this.listener();
+		this.hooks();
 
 		return this;
 	},
-	listener: function () {
+	hooks: function () {
 		var api = this.global.api;
 
-		api.event.on( 'message_' + this.name, function ( args ) {
+		api.event.addListener( 'message_' + this.name, function ( args ) {
 			api.say( args, "hallo" );
 		} );
 	}

@@ -6,4 +6,4 @@ module.exports = {
 		name: 'HSA-Bot',
 		channels: ['#hs-augsburg']
 	}
-}
+};

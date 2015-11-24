@@ -34,4 +34,4 @@ module.exports = {
 			api.say( args, content.join( "\n" ) );
 		} );
 	}
-}
+};

@@ -36,4 +36,4 @@ module.exports = {
 			api.say( args, content );
 		} );
 	}
-}
+};

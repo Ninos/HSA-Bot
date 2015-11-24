@@ -23,5 +23,5 @@ var HSA_Bot = {
 	start: function() {
 		var app = require( './app/irc.js' ).init( this.global );
 	}
-}
+};
 HSA_Bot.init();

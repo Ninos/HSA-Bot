@@ -19,6 +19,7 @@ var HSA_Bot = {
 	},
 	load: function() {
 		require('./modules/help.js' ).init( this.global );
+		require('./modules/troll.js' ).init( this.global );
 	},
 	start: function() {
 		var app = require( './app/irc.js' ).init( this.global );

@@ -2,19 +2,36 @@
 
 module.exports = {
 	name: 'help',
-	global: {},
-	init: function ( param ) {
-		this.global = param;
+	root: null,
+	init: function ( root ) {
+		this.root = root;
 
 		this.hooks();
 
 		return this;
 	},
 	hooks: function () {
-		var api = this.global.api;
+		var that = this;
+
+		var api = this.root.lib.api;
+		var modules = this.root.modules;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
-			api.say( args, "hallo" );
+			var content = [];
+			for ( var key in modules ) {
+				if ( key == that.name ) {
+					continue;
+				}
+
+				if ( ! modules.hasOwnProperty( key ) ) {
+					continue;
+				}
+
+				var module = modules[key];
+				content.push( that.name + ' ' + module.name );
+			}
+
+			api.say( args, content.join( "\n" ) );
 		} );
 	}
 }

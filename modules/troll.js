@@ -2,16 +2,16 @@
 
 module.exports = {
 	name: 'troll',
-	global: {},
-	init: function ( param ) {
-		this.global = param;
+	root: null,
+	init: function ( root ) {
+		this.root = root;
 
 		this.hooks();
 
 		return this;
 	},
 	hooks: function () {
-		var api = this.global.api;
+		var api = this.root.lib.api;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			if ( args.param[0] == undefined || args.param[0] == '' ) {

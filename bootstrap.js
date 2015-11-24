@@ -1,15 +1,16 @@
 'use strict';
 
 var HSA_Bot = {
-	global: {},
+	config: null,
+	lib: {},
 	modules: {},
 	init: function () {
 		const config = require( './config.js' );
 		const api = require( './lib/api.js' ).init();
 		const parse = require( './lib/parse.js' );
 
-		this.global = {
-			config: config,
+		this.config = config;
+		this.lib = {
 			api: api,
 			parse: parse
 		};
@@ -27,13 +28,13 @@ var HSA_Bot = {
 			var filename = files[i];
 
 			if ( filename.substr( - 3 ) === '.js' ) {
-				var module = require( path + filename ).init( this.global );
+				var module = require( path + filename ).init( this );
 				this.modules[module.name] = module;
 			}
 		}
 	},
 	start: function () {
-		var app = require( './app/irc.js' ).init( this.global );
+		var app = require( './app/irc.js' ).init( this );
 	}
 };
 HSA_Bot.init();

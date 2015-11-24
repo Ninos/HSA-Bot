@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = {
-	global: {},
+	root: null,
 	client: null,
-	init: function ( param ) {
-		this.global = param;
+	init: function ( root ) {
+		this.root = root;
 
 		this.connect();
 		this.hooks();
@@ -14,7 +14,7 @@ module.exports = {
 	connect: function () {
 		var irc = require( 'irc' );
 
-		var config = this.global.config;
+		var config = this.root.config;
 
 		this.client = new irc.Client( config.irc.server, config.irc.name, {
 			channels: config.irc.channels,
@@ -23,8 +23,8 @@ module.exports = {
 	hooks: function () {
 		var that = this;
 
-		var api = this.global.api;
-		var parse = this.global.parse;
+		var api = this.root.lib.api;
+		var parse = this.root.lib.parse;
 
 		this.client.addListener( 'message', function ( from, to, message ) {
 			var args = parse.message( message );
@@ -68,7 +68,7 @@ module.exports = {
 		} );
 	},
 	isMentioned: function ( mention ) {
-		var config = this.global.config;
+		var config = this.root.config;
 
 		var mention = mention.toLowerCase();
 		var name = config.irc.name.toLowerCase();

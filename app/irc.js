@@ -36,17 +36,13 @@ module.exports = {
 				return;
 			}
 
-			var response = api.message( {
+			api.message( {
 				'module': module,
 				'param': param,
 				'from': from,
 				'to': to,
 				'pm': false
 			} );
-
-			console.log( response );
-			that.client.say(to, "I'm a bot!");
-			that.client.say(from, "SRSLY, I AM!");
 		} );
 
 		this.client.addListener( 'pm', function ( from, message ) {
@@ -54,16 +50,21 @@ module.exports = {
 			var module = args.module;
 			var param = args.param;
 
-			var response = api.message( {
+			api.message( {
 				'module': module,
 				'param': param,
 				'from': from,
+				'to': from,
 				'pm': true
 			} );
 		} );
 
 		this.client.addListener( 'error', function ( message ) {
 			return message;
+		} );
+
+		api.event.on( 'say', function ( args, content ) {
+			that.client.say( args.to, content );
 		} );
 	},
 	isMentioned: function ( mention ) {

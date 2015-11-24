@@ -13,10 +13,8 @@ module.exports = {
 	listener: function () {
 		var api = this.global.api;
 
-		api.event.on( 'message_' + this.name, function ( args, response ) {
-			response = "help";
-console.log("hu");
-			return response;
+		api.event.on( 'message_' + this.name, function ( args ) {
+			api.say( args, "hallo" );
 		} );
 	}
 }

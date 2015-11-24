@@ -2,8 +2,8 @@
 
 var HSA_Bot = {
 	global: {},
-	modules: [],
-	init: function() {
+	modules: {},
+	init: function () {
 		const config = require( './config.js' );
 		const api = require( './lib/api.js' ).init();
 		const parse = require( './lib/parse.js' );
@@ -17,11 +17,22 @@ var HSA_Bot = {
 		this.load();
 		this.start();
 	},
-	load: function() {
-		require('./modules/help.js' ).init( this.global );
-		require('./modules/troll.js' ).init( this.global );
+	load: function () {
+		var fs = require( 'fs' );
+
+		var path = './modules/';
+		var files = fs.readdirSync( path );
+
+		for ( var i = 0; i < files.length; i ++ ) {
+			var filename = files[i];
+
+			if ( filename.substr( - 3 ) === '.js' ) {
+				var module = require( path + filename ).init( this.global );
+				this.modules[module.name] = module;
+			}
+		}
 	},
-	start: function() {
+	start: function () {
 		var app = require( './app/irc.js' ).init( this.global );
 	}
 };

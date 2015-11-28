@@ -62,6 +62,10 @@ module.exports = {
 		} );
 
 		api.event.addListener( 'say', function ( args, content ) {
+			if ( ! args.pm && args.from ) {
+				content = '@' + args.from + "\n" + content;
+			}
+
 			that.client.say( args.to, content );
 		} );
 	},

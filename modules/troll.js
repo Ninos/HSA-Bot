@@ -31,6 +31,7 @@ module.exports = {
 			param.splice( 0, 1 );
 			var content = param.join( ' ' );
 
+			args.from = null;
 			args.to = to;
 
 			api.say( args, content );

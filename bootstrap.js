@@ -5,24 +5,25 @@ var HSA_Bot = {
 	lib: {},
 	modules: {},
 	init: function () {
-		const config = require( './config.js' );
-		const api = require( './lib/api.js' ).init();
-		const parse = require( './lib/parse.js' );
+		const config = require( './config.js' ),
+			api = require( './lib/api.js' ).init(),
+			parse = require( './lib/parse.js' ),
+			cache = require( './lib/cache.js' );
 
 		this.config = config;
 		this.lib = {
 			api: api,
-			parse: parse
+			parse: parse,
+			cache: cache
 		};
 
 		this.load();
 		this.start();
 	},
 	load: function () {
-		var fs = require( 'fs' );
-
-		var path = './modules/';
-		var files = fs.readdirSync( path );
+		var fs = require( 'fs' ),
+			path = './modules/',
+			files = fs.readdirSync( path );
 
 		for ( var i = 0; i < files.length; i ++ ) {
 			var filename = files[i];

@@ -12,25 +12,23 @@ module.exports = {
 		return this;
 	},
 	connect: function () {
-		var irc = require( 'irc' );
-
-		var config = this.root.config;
+		var config = this.root.config,
+			irc = require( 'irc' );
 
 		this.client = new irc.Client( config.irc.server, config.irc.name, {
 			channels: config.irc.channels,
 		} );
 	},
 	hooks: function () {
-		var that = this;
-
-		var api = this.root.lib.api;
-		var parse = this.root.lib.parse;
+		var that = this,
+			api = this.root.lib.api,
+			parse = this.root.lib.parse;
 
 		this.client.addListener( 'message', function ( from, to, message ) {
-			var args = parse.message( message );
-			var mention = args.mention;
-			var module = args.module;
-			var param = args.param;
+			var args = parse.message( message ),
+				mention = args.mention,
+				module = args.module,
+				param = args.param;
 
 			if ( ! that.isMentioned( mention ) ) {
 				return;
@@ -46,9 +44,9 @@ module.exports = {
 		} );
 
 		this.client.addListener( 'pm', function ( from, message ) {
-			var args = parse.pm( message );
-			var module = args.module;
-			var param = args.param;
+			var args = parse.pm( message ),
+				module = args.module,
+				param = args.param;
 
 			api.message( {
 				'module': module,
@@ -68,10 +66,9 @@ module.exports = {
 		} );
 	},
 	isMentioned: function ( mention ) {
-		var config = this.root.config;
-
-		var mention = mention.toLowerCase();
-		var name = config.irc.name.toLowerCase();
+		var config = this.root.config,
+			mention = mention.toLowerCase(),
+			name = config.irc.name.toLowerCase();
 
 		if (
 			mention == name

@@ -11,10 +11,9 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this;
-
-		var api = this.root.lib.api;
-		var modules = this.root.modules;
+		var that = this,
+			api = this.root.lib.api,
+			modules = this.root.modules;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			var content = [];

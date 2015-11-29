@@ -99,7 +99,7 @@ module.exports = {
 				data[date][id] = {
 					title: $( this ).find( '[data-role="content"] h4' ).text().replace( /\u00AD/g, '' ).trim(),
 					heading: $( this ).find( '[data-role="content"] h4' ).next().text().replace( /\u00AD/g, '' ).trim(),
-					description: $( this ).find( '[data-role="content"] h4' ).next().next().text().replace( /\u00AD/g, '' ).trim(),
+					description: $( this ).find( '[data-role="content"] h4' ).next().next().text().replace( /\u00AD/g, '' ).trim()
 				};
 			} );
 

@@ -17,18 +17,11 @@ module.exports = {
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			var content = [];
-			for ( var key in modules ) {
-				if ( key == that.name ) {
-					continue;
-				}
+			Object.keys( modules ).map( function ( key ) {
+				var value = modules[key];
 
-				if ( ! modules.hasOwnProperty( key ) ) {
-					continue;
-				}
-
-				var module = modules[key];
-				content.push( that.name + ' ' + module.name );
-			}
+				content.push( that.name + ' ' + value.name );
+			} );
 
 			api.say( args, content.join( "\n" ) );
 		} );

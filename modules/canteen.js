@@ -28,23 +28,29 @@ module.exports = {
 			parse = this.root.lib.parse;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
+			// Check if param 1 is not empty and a valid canteen
 			if ( args.param[0] == undefined || args.param[0] == '' || ! that.isValidCanteen( args.param[0] ) ) {
 				return;
 			}
 
+			// Check if param 2 is not empty (should be a date)
 			if ( args.param[1] == undefined || args.param[1] == '' ) {
 				return;
 			}
 
+			// Get the data object from url/cache with all nessessary menu informations
 			that.getData( args.param[0], function ( data ) {
+				// Format the input date
 				var date = parse.date( args.param[1], 'YYYY-MM-DD' );
 
+				// Check if a menu exists for the inputted date
 				if ( ! data[date] ) {
 					api.say( args, 'Sorry, for that date a menu does not exists!' );
 
 					return;
 				}
 
+				// Generate output content
 				var content = [];
 				Object.keys( data[date] ).map( function ( key ) {
 					var value = data[date][key];
@@ -67,6 +73,7 @@ module.exports = {
 			return;
 		}
 
+		// Return cache if exists and not expired
 		var data = cache.get( that.name + '_data_' + canteen );
 		if ( data ) {
 			callback( data );
@@ -76,6 +83,7 @@ module.exports = {
 
 		data = {};
 
+		// Get html, parse and return object
 		request( this.url.details + canteen, function ( error, response, body ) {
 			if ( error || response.statusCode != 200 ) {
 				console.log( 'Connection error' );
@@ -85,17 +93,21 @@ module.exports = {
 
 			var $ = cheerio.load( body );
 
+			// Loop for every element with the classes page & details
 			$( '.page.details' ).each( function () {
+				// Get the menu id and parse the date into well formatted string
 				var id = $( this ).attr( 'id' ).split( '_' ).pop();
 				var date = moment(
 					$( this ).find( '[data-role="header"] .essendetail' ).text().split( ', ' ).pop(),
 					'DD.MM.YYYY'
 				).format( 'YYYY-MM-DD' );
 
+				// Create second level only, if date data is not initialized
 				if ( ! data[date] ) {
 					data[date] = {};
 				}
 
+				// Write needed informations as paint text in object
 				data[date][id] = {
 					title: $( this ).find( '[data-role="content"] h4' ).text().replace( /\u00AD/g, '' ).trim(),
 					heading: $( this ).find( '[data-role="content"] h4' ).next().text().replace( /\u00AD/g, '' ).trim(),
@@ -103,6 +115,7 @@ module.exports = {
 				};
 			} );
 
+			// Set the cache with an expire date of 3600 seconds
 			cache.set( that.name + '_data_' + canteen, data, 3600 );
 
 			callback( data );

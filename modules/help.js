@@ -20,7 +20,9 @@ module.exports = {
 			Object.keys( modules ).map( function ( key ) {
 				var value = modules[key];
 
-				content.push( that.name + ' ' + value.name );
+				if ( value.name != that.name ) {
+					content.push( that.name + ' ' + value.name );
+				}
 			} );
 
 			api.say( args, content.join( "\n" ) );

@@ -1,87 +1,81 @@
 'use strict';
 
 module.exports = {
-    name: 'news',
-    root: null,
-    url: {
-        news: 'http://www.hs-augsburg.de/index.html'
-    },
+	name: 'news',
+	root: null,
+	url: 'http://www.hs-augsburg.de/index.html',
+	init: function ( root ) {
+		this.root = root;
 
-    init: function ( root ) {
-        this.root = root;
+		this.hooks();
 
-        this.hooks();
+		return this;
+	},
+	hooks: function () {
+		var that = this,
+			api = this.root.lib.api;
 
-        return this;
-    },
-    hooks: function () {
-        var that = this;
+		api.event.addListener( 'message_' + this.name, function ( args ) {
+			// Get the data object from url/cache with all necessary news information
+			that.getData( function ( data ) {
 
-        // Get the data object from url/cache with all necessary news information
-        that.getData(function ( data ) {
+				// Check if new news exists
+				if ( ! data ) {
+					api.say( 'No news available' );
 
-            // Check if new news exists
-            if ( !data ) {
-                api.say( 'No news available' );
+					return;
+				}
 
-                return;
-            }
+				// Generate output content
+				var content = [];
+				Object.keys( data ).map( function ( key ) {
+					var value = data[key];
 
-            // Generate output content
-            var content = [];
-            var counter = 0;
-            Object.keys( data[counter] ).map( function ( key ) {
-                var value = data[counter][key];
+					content.push( value.title );
+				} );
 
-                content.push( value.title );
-            } );
+				api.say( args, content.join( "\n" ) );
+			} );
+		} );
+	},
+	getData: function ( callback ) {
+		var that = this,
+			cache = this.root.lib.cache,
+			request = require( 'request' ),
+			cheerio = require( 'cheerio' );
 
-            api.say( content.join( "\n" ) );
-        } );
-    },
+		// Return cache if exists and not expired
+		var data = cache.get( that.name + '_data_news' );
+		if ( data ) {
+			callback( data );
 
-    getData: function (callback) {
-        var that = this,
-            cache = this.root.lib.cache,
-            request = require( 'request' ),
-            cheerio = require( 'cheerio' ),
-            moment = require( 'moment' );
+			return;
+		}
 
+		data = {};
 
-        // Return cache if exists and not expired
-        var data = cache.get( that.name );
-        if ( data ) {
-            callback( data );
+		// Get html, parse and return object
+		request( this.url, function ( error, response, body ) {
+			if ( error || response.statusCode != 200 ) {
+				console.log( 'Connection error' );
 
-            return;
-        }
+				return;
+			}
 
-        data = {};
+			var $ = cheerio.load( body );
 
-        // Get html, parse and return object
-        request( this.url, function ( error, response, body ) {
-            if ( error || response.statusCode != 200 ) {
-                console.log( 'Connection error' );
+			// Loop for every element with the classes content & keyword
+			$( '#content .px131' ).each( function ( index ) {
+				// Write needed information as plain text in object
+				data[index] = {
+					title: $( this ).find( 'h3' ).text().trim()
+				};
+			} );
 
-                return;
-            }
+			// Set the cache with an expire date of 3600 seconds
+			cache.set( that.name + '_data_news', data, 3600 );
 
-            var $ = cheerio.load( body );
-            var counter = 0;
-            // Loop for every element with the classes content & keyword
-            $(  '#content.px131' ).each( function () {
-
-                // Write needed information as plain text in object
-                data[counter] = {
-                    title: $( this ).find( '[data-role="content"] h3' ).text().replace( /\u00AD/g, '' ).trim()
-                };
-                counter++;
-            } );
-
-            // Set the cache with an expire date of 3600 seconds
-            cache.set( that.name + '_data_' + data, 3600 );
-
-            callback( data );
-        } );
-    }
+			callback( data );
+		} );
+	}
 };

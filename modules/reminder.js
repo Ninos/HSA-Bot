@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	name: 'remind',
+	name: 'reminder',
 	init: function () {
 		this.hooks();
 

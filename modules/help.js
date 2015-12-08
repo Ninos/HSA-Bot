@@ -11,7 +11,7 @@ module.exports = {
 	hooks: function () {
 		var that = this,
 			api = require( '../lib/api.js' ),
-			modules = require( '../modules.js' ).get();
+			modules = require( '../lib/modules.js' ).get();
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			var content = [];

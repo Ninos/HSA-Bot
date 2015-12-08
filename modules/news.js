@@ -14,7 +14,12 @@ module.exports = {
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			// Get the data object from url/cache with all necessary news information
-			that.getData( function ( data ) {
+			that.getData( function ( error, data ) {
+				if ( error ) {
+					console.error( error );
+
+					return;
+				}
 
 				// Check if new news exists
 				if ( ! data ) {
@@ -44,7 +49,7 @@ module.exports = {
 		// Return cache if exists and not expired
 		var data = cache.get( that.name + '_data_news' );
 		if ( data ) {
-			callback( data );
+			setImmediate( callback, null, data );
 
 			return;
 		}
@@ -54,7 +59,7 @@ module.exports = {
 		// Get html, parse and return object
 		request( this.url, function ( error, response, body ) {
 			if ( error || response.statusCode != 200 ) {
-				console.log( 'Connection error' );
+				callback( error );
 
 				return;
 			}
@@ -72,7 +77,7 @@ module.exports = {
 			// Set the cache with an expire date of 3600 seconds
 			cache.set( that.name + '_data_news', data, 3600 );
 
-			callback( data );
+			callback( null, data );
 		} );
 	}
 };

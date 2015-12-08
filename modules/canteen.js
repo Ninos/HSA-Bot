@@ -36,7 +36,13 @@ module.exports = {
 			}
 
 			// Get the data object from url/cache with all nessessary menu informations
-			that.getData( args.param[0], function ( data ) {
+			that.getData( args.param[0], function ( error, data ) {
+				if ( error ) {
+					console.error( error );
+
+					return;
+				}
+
 				// Format the input date
 				var date = parse.date( args.param[1], 'YYYY-MM-DD' );
 
@@ -73,7 +79,7 @@ module.exports = {
 		// Return cache if exists and not expired
 		var data = cache.get( that.name + '_data_' + canteen );
 		if ( data ) {
-			callback( data );
+			setImmediate( callback, null, data );
 
 			return;
 		}
@@ -83,7 +89,7 @@ module.exports = {
 		// Get html, parse and return object
 		request( this.url.details + canteen, function ( error, response, body ) {
 			if ( error || response.statusCode != 200 ) {
-				console.log( 'Connection error' );
+				callback( error );
 
 				return;
 			}
@@ -115,7 +121,7 @@ module.exports = {
 			// Set the cache with an expire date of 3600 seconds
 			cache.set( that.name + '_data_' + canteen, data, 3600 );
 
-			callback( data );
+			callback( null, data );
 		} );
 	},
 	isValidCanteen: function ( canteen ) {

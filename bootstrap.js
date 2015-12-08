@@ -1,41 +1,17 @@
 'use strict';
 
-var HSA_Bot = {
-	config: null,
-	lib: {},
-	modules: {},
+module.exports = {
 	init: function () {
-		const config = require( './config.js' ),
-			api = require( './lib/api.js' ).init(),
-			parse = require( './lib/parse.js' ),
-			cache = require( './lib/cache.js' );
-
-		this.config = config;
-		this.lib = {
-			api: api,
-			parse: parse,
-			cache: cache
-		};
-
 		this.load();
 		this.start();
+
+		return this;
 	},
 	load: function () {
-		var fs = require( 'fs' ),
-			path = './modules/',
-			files = fs.readdirSync( path );
-
-		for ( var i = 0; i < files.length; i ++ ) {
-			var filename = files[i];
-
-			if ( filename.substr( - 3 ) === '.js' ) {
-				var module = require( path + filename ).init( this );
-				this.modules[module.name] = module;
-			}
-		}
+		var api = require( './lib/api.js' ).init(),
+			modules = require( './modules.js' ).init();
 	},
 	start: function () {
-		var app = require( './app/irc.js' ).init( this );
+		var app = require( './app/irc.js' ).init();
 	}
 };
-HSA_Bot.init();

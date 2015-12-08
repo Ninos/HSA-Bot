@@ -2,16 +2,13 @@
 
 module.exports = {
 	name: 'troll',
-	root: null,
-	init: function ( root ) {
-		this.root = root;
-
+	init: function () {
 		this.hooks();
 
 		return this;
 	},
 	hooks: function () {
-		var api = this.root.lib.api;
+		var api = require( '../lib/api.js' );
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			if ( args.param[0] == undefined || args.param[0] == '' ) {

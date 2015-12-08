@@ -2,7 +2,6 @@
 
 module.exports = {
 	name: 'canteen',
-	root: null,
 	url: {
 		canteens: 'http://augsburg.my-mensa.de/chooser.php?v=4828283&hyp=1&lang=de&mensa=all',
 		details: 'http://augsburg.my-mensa.de/details.php?v=4828271&hyp=1&lang=de&mensa='
@@ -15,17 +14,15 @@ module.exports = {
 		'neuulm_steubenstr',
 		'kempten_fh'
 	],
-	init: function ( root ) {
-		this.root = root;
-
+	init: function () {
 		this.hooks();
 
 		return this;
 	},
 	hooks: function () {
 		var that = this,
-			api = this.root.lib.api,
-			parse = this.root.lib.parse;
+			api = require( '../lib/api.js' ),
+			parse = require( '../lib/parse.js' );
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			// Check if param 1 is not empty and a valid canteen
@@ -64,7 +61,7 @@ module.exports = {
 	},
 	getData: function ( canteen, callback ) {
 		var that = this,
-			cache = this.root.lib.cache,
+			cache = require( '../lib/cache.js' ),
 			request = require( 'request' ),
 			cheerio = require( 'cheerio' ),
 			moment = require( 'moment' );

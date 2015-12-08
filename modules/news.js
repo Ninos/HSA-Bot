@@ -2,18 +2,15 @@
 
 module.exports = {
 	name: 'news',
-	root: null,
 	url: 'http://www.hs-augsburg.de/index.html',
-	init: function ( root ) {
-		this.root = root;
-
+	init: function () {
 		this.hooks();
 
 		return this;
 	},
 	hooks: function () {
 		var that = this,
-			api = this.root.lib.api;
+			api = require( '../lib/api.js' );
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			// Get the data object from url/cache with all necessary news information
@@ -40,7 +37,7 @@ module.exports = {
 	},
 	getData: function ( callback ) {
 		var that = this,
-			cache = this.root.lib.cache,
+			cache = require( '../lib/cache.js' ),
 			request = require( 'request' ),
 			cheerio = require( 'cheerio' );
 

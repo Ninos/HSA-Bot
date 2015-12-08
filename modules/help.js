@@ -2,9 +2,7 @@
 
 module.exports = {
 	name: 'help',
-	root: null,
-	init: function ( root ) {
-		this.root = root;
+	init: function () {
 
 		this.hooks();
 
@@ -12,8 +10,8 @@ module.exports = {
 	},
 	hooks: function () {
 		var that = this,
-			api = this.root.lib.api,
-			modules = this.root.modules;
+			api = require( '../lib/api.js' ),
+			modules = require( '../modules.js' ).get();
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			var content = [];

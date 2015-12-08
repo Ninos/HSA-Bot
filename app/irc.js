@@ -1,18 +1,15 @@
 'use strict';
 
 module.exports = {
-	root: null,
 	client: null,
-	init: function ( root ) {
-		this.root = root;
-
+	init: function () {
 		this.connect();
 		this.hooks();
 
 		return this;
 	},
 	connect: function () {
-		var config = this.root.config,
+		var config = require( '../config.js' ),
 			irc = require( 'irc' );
 
 		this.client = new irc.Client( config.irc.server, config.irc.name, {
@@ -21,8 +18,9 @@ module.exports = {
 	},
 	hooks: function () {
 		var that = this,
-			api = this.root.lib.api,
-			parse = this.root.lib.parse;
+			config = require( '../config.js' ),
+			api = require( '../lib/api.js' ),
+			parse = require( '../lib/parse.js' );
 
 		this.client.addListener( 'message', function ( from, to, message ) {
 			var args = parse.message( message ),
@@ -30,7 +28,7 @@ module.exports = {
 				module = args.module,
 				param = args.param;
 
-			if ( ! that.isMentioned( mention ) ) {
+			if ( ! parse.isMentioned( mention, config.irc.name ) ) {
 				return;
 			}
 
@@ -68,26 +66,5 @@ module.exports = {
 
 			that.client.say( args.to, content );
 		} );
-	},
-	isMentioned: function ( mention ) {
-		var config = this.root.config,
-			mention = mention.toLowerCase(),
-			name = config.irc.name.toLowerCase();
-
-		if (
-			mention == name
-			|| mention.replace( /\W/g, '' ) == name.replace( /\W/g, '' )
-		) {
-			return true;
-		}
-
-		if (
-			mention == '@' + name
-			|| mention.replace( /\W/g, '' ) == '@' + name.replace( /\W/g, '' )
-		) {
-			return true;
-		}
-
-		return false;
 	}
 };

@@ -19,7 +19,7 @@ module.exports = {
 	call: function ( args ) {
 		var that = this,
 			api = require( '../lib/api.js' ),
-            moment = require( 'moment' );
+			moment = require( 'moment' );
 
 		// Get the data object from url/cache with all necessary news information
 		that.getData( function ( error, data ) {
@@ -40,17 +40,17 @@ module.exports = {
 			var content = [];
 			Object.keys( data ).map( function ( key ) {
 				var value = data[key];
-                var date = moment(
-                    value.date.from,
-                    'YYYY-MM-DD'
-                ).format( 'DD.MM.YYYY' );
+				var date = moment(
+					value.date.from,
+					'YYYY-MM-DD'
+				).format( 'DD.MM.YYYY' );
 
-                if( value.date.to ) {
-                    date += ' - ' +  moment(
-                            value.date.to,
-                            'YYYY-MM-DD'
-                        ).format( 'DD.MM.YYYY' )
-                }
+				if ( value.date.to ) {
+					date += ' - ' + moment(
+							value.date.to,
+							'YYYY-MM-DD'
+						).format( 'DD.MM.YYYY' )
+				}
 
 				content.push( date + ': ' + value.title );
 			} );
@@ -63,11 +63,11 @@ module.exports = {
 			cache = require( '../lib/cache.js' ),
 			request = require( 'request' ),
 			cheerio = require( 'cheerio' ),
-            moment = require( 'moment' );
+			moment = require( 'moment' );
 
 		// Return cache if exists and not expired
 		var cacheName = that.name + '_data',
-            data = cache.get( cacheName );
+			data = cache.get( cacheName );
 		if ( data ) {
 			setImmediate( callback, null, data );
 
@@ -88,25 +88,25 @@ module.exports = {
 
 			// Loop for every element with the classes content & keyword
 			$( '#infosystems > a' ).each( function ( index ) {
-                if( ! $( this ).children( 'strong').length ) {
-                    return;
-                }
+				if ( ! $( this ).children( 'strong' ).length ) {
+					return;
+				}
 
-                var date = $( this ).children( 'strong' ).text().split('-');
+				var date = $( this ).children( 'strong' ).text().split( '-' );
 
 				// Write needed information as plain text in object
 				data[index] = {
 					title: $( this ).attr( 'title' ),
-                    date: {
-                        from: moment(
-                            date[0].replace( '\n', '' ).trim(),
-                            'DD.MM.YYYY'
-                        ).format( 'YYYY-MM-DD' ),
-                        to: date[1] !== undefined ? moment(
-                            date[1].replace( '\n', '' ).trim(),
-                            'DD.MM.YYYY'
-                        ).format( 'YYYY-MM-DD' ) : null
-                    }
+					date: {
+						from: moment(
+							date[0].replace( '\n', '' ).trim(),
+							'DD.MM.YYYY'
+						).format( 'YYYY-MM-DD' ),
+						to: date[1] !== undefined ? moment(
+							date[1].replace( '\n', '' ).trim(),
+							'DD.MM.YYYY'
+						).format( 'YYYY-MM-DD' ) : null
+					}
 				};
 			} );
 

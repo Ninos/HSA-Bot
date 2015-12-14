@@ -21,48 +21,54 @@ module.exports = {
 	},
 	hooks: function () {
 		var that = this,
+			api = require( '../lib/api.js' );
+
+		api.event.addListener( 'message_' + this.name, function ( args ) {
+			that.call( args );
+		} );
+	},
+	call: function ( args ) {
+		var that = this,
 			api = require( '../lib/api.js' ),
 			parse = require( '../lib/parse.js' );
 
-		api.event.addListener( 'message_' + this.name, function ( args ) {
-			// Check if param 1 is not empty and a valid canteen
-			if ( args.param[0] == undefined || args.param[0] == '' || ! that.isValidCanteen( args.param[0] ) ) {
+		// Check if param 1 is not empty and a valid canteen
+		if ( args.param[0] == undefined || args.param[0] == '' || ! that.isValidCanteen( args.param[0] ) ) {
+			return;
+		}
+
+		// Check if param 2 is not empty (should be a date)
+		if ( args.param[1] == undefined || args.param[1] == '' ) {
+			return;
+		}
+
+		// Get the data object from url/cache with all nessessary menu informations
+		that.getData( args.param[0], function ( error, data ) {
+			if ( error ) {
+				console.error( error );
+
 				return;
 			}
 
-			// Check if param 2 is not empty (should be a date)
-			if ( args.param[1] == undefined || args.param[1] == '' ) {
+			// Format the input date
+			var date = parse.date( args.param[1], 'YYYY-MM-DD' );
+
+			// Check if a menu exists for the inputted date
+			if ( ! data[date] ) {
+				api.say( args, 'Sorry, for that date a menu does not exists!' );
+
 				return;
 			}
 
-			// Get the data object from url/cache with all nessessary menu informations
-			that.getData( args.param[0], function ( error, data ) {
-				if ( error ) {
-					console.error( error );
+			// Generate output content
+			var content = [];
+			Object.keys( data[date] ).map( function ( key ) {
+				var value = data[date][key];
 
-					return;
-				}
-
-				// Format the input date
-				var date = parse.date( args.param[1], 'YYYY-MM-DD' );
-
-				// Check if a menu exists for the inputted date
-				if ( ! data[date] ) {
-					api.say( args, 'Sorry, for that date a menu does not exists!' );
-
-					return;
-				}
-
-				// Generate output content
-				var content = [];
-				Object.keys( data[date] ).map( function ( key ) {
-					var value = data[date][key];
-
-					content.push( value.title + ': ' + value.heading + ' ' + value.description );
-				} );
-
-				api.say( args, content.join( "\n" ) );
+				content.push( value.title + ': ' + value.heading + ' ' + value.description );
 			} );
+
+			api.say( args, content.join( "\n" ) );
 		} );
 	},
 	getData: function ( canteen, callback ) {
@@ -77,7 +83,8 @@ module.exports = {
 		}
 
 		// Return cache if exists and not expired
-		var data = cache.get( that.name + '_data_' + canteen );
+		var cacheName = that.name + '_data_' + canteen,
+			data = cache.get( cacheName );
 		if ( data ) {
 			setImmediate( callback, null, data );
 
@@ -119,7 +126,7 @@ module.exports = {
 			} );
 
 			// Set the cache with an expire date of 3600 seconds
-			cache.set( that.name + '_data_' + canteen, data, 3600 );
+			cache.set( cacheName, data, 3600 );
 
 			callback( null, data );
 		} );

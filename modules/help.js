@@ -10,20 +10,26 @@ module.exports = {
 	},
 	hooks: function () {
 		var that = this,
+			api = require( '../lib/api.js' );
+
+		api.event.addListener( 'message_' + this.name, function ( args ) {
+			that.call( args );
+		} );
+	},
+	call: function ( args ) {
+		var that = this,
 			api = require( '../lib/api.js' ),
 			modules = require( '../lib/modules.js' ).get();
 
-		api.event.addListener( 'message_' + this.name, function ( args ) {
-			var content = [];
-			Object.keys( modules ).map( function ( key ) {
-				var value = modules[key];
+		var content = [];
+		Object.keys( modules ).map( function ( key ) {
+			var value = modules[key];
 
-				if ( value.name != that.name ) {
-					content.push( that.name + ' ' + value.name );
-				}
-			} );
-
-			api.say( args, content.join( "\n" ) );
+			if ( value.name != that.name ) {
+				content.push( that.name + ' ' + value.name );
+			}
 		} );
+
+		api.say( args, content.join( "\n" ) );
 	}
 };

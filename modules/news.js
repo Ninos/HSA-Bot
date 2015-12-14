@@ -13,31 +13,37 @@ module.exports = {
 			api = require( '../lib/api.js' );
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
-			// Get the data object from url/cache with all necessary news information
-			that.getData( function ( error, data ) {
-				if ( error ) {
-					console.error( error );
+			that.call( args );
+		} );
+	},
+	call: function ( args ) {
+		var that = this,
+			api = require( '../lib/api.js' );
 
-					return;
-				}
+		// Get the data object from url/cache with all necessary news information
+		that.getData( function ( error, data ) {
+			if ( error ) {
+				console.error( error );
 
-				// Check if new news exists
-				if ( ! data ) {
-					api.say( 'No news available' );
+				return;
+			}
 
-					return;
-				}
+			// Check if new news exists
+			if ( ! data ) {
+				api.say( 'No news available' );
 
-				// Generate output content
-				var content = [];
-				Object.keys( data ).map( function ( key ) {
-					var value = data[key];
+				return;
+			}
 
-					content.push( value.title );
-				} );
+			// Generate output content
+			var content = [];
+			Object.keys( data ).map( function ( key ) {
+				var value = data[key];
 
-				api.say( args, content.join( "\n" ) );
+				content.push( value.title );
 			} );
+
+			api.say( args, content.join( "\n" ) );
 		} );
 	},
 	getData: function ( callback ) {
@@ -47,7 +53,8 @@ module.exports = {
 			cheerio = require( 'cheerio' );
 
 		// Return cache if exists and not expired
-		var data = cache.get( that.name + '_data_news' );
+		var cacheName = that.name + '_data',
+			data = cache.get( cacheName );
 		if ( data ) {
 			setImmediate( callback, null, data );
 
@@ -75,7 +82,7 @@ module.exports = {
 			} );
 
 			// Set the cache with an expire date of 3600 seconds
-			cache.set( that.name + '_data_news', data, 3600 );
+			cache.set( cacheName, data, 3600 );
 
 			callback( null, data );
 		} );

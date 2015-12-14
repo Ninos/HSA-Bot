@@ -1,83 +1,89 @@
 'use strict';
 
 module.exports = {
-    name: 'event',
-    url: 'http://www.hs-augsburg.de/index.html',
-    init: function () {
-        this.hooks();
+	name: 'event',
+	url: 'http://www.hs-augsburg.de/index.html',
+	init: function () {
+		this.hooks();
 
-        return this;
-    },
-    hooks: function () {
-        var that = this,
-            api = require( '../lib/api.js' );
+		return this;
+	},
+	hooks: function () {
+		var that = this,
+			api = require( '../lib/api.js' );
 
-        api.event.addListener( 'message_' + this.name, function ( args ) {
-            // Get the data object from url/cache with all necessary news information
-            that.getData( function ( error, data ) {
-                if ( error ) {
-                    console.error( error );
+		api.event.addListener( 'message_' + this.name, function ( args ) {
+			that.call( args );
+		} );
+	},
+	call: function ( args ) {
+		var that = this,
+			api = require( '../lib/api.js' );
 
-                    return;
-                }
+		// Get the data object from url/cache with all necessary news information
+		that.getData( function ( error, data ) {
+			if ( error ) {
+				console.error( error );
 
-                // Check if new news exists
-                if ( ! data ) {
-                    api.say( 'No news available' );
+				return;
+			}
 
-                    return;
-                }
+			// Check if new news exists
+			if ( ! data ) {
+				api.say( 'No news available' );
 
-                // Generate output content
-                var content = [];
-                Object.keys( data ).map( function ( key ) {
-                    var value = data[key];
+				return;
+			}
 
-                    content.push( value.title );
-                } );
-                console.log(content.join( "\n" ));
-                api.say( args, content.join( "\n" ) );
-            } );
-        } );
-    },
-    getData: function ( callback ) {
-        var that = this,
-            cache = require( '../lib/cache.js' ),
-            request = require( 'request' ),
-            cheerio = require( 'cheerio' );
+			// Generate output content
+			var content = [];
+			Object.keys( data ).map( function ( key ) {
+				var value = data[key];
 
-        // Return cache if exists and not expired
-        var data = cache.get( that.name + '_data_news' );
-        if ( data ) {
-            setImmediate( callback, null, data );
+				content.push( value.title );
+			} );
+			console.log( content.join( "\n" ) );
+			api.say( args, content.join( "\n" ) );
+		} );
+	},
+	getData: function ( callback ) {
+		var that = this,
+			cache = require( '../lib/cache.js' ),
+			request = require( 'request' ),
+			cheerio = require( 'cheerio' );
 
-            return;
-        }
+		// Return cache if exists and not expired
+		var data = cache.get( that.name + '_data_news' );
+		if ( data ) {
+			setImmediate( callback, null, data );
 
-        data = {};
+			return;
+		}
 
-        // Get html, parse and return object
-        request( this.url, function ( error, response, body ) {
-            if ( error || response.statusCode != 200 ) {
-                callback( error );
+		data = {};
 
-                return;
-            }
+		// Get html, parse and return object
+		request( this.url, function ( error, response, body ) {
+			if ( error || response.statusCode != 200 ) {
+				callback( error );
 
-            var $ = cheerio.load( body );
+				return;
+			}
 
-            // Loop for every element with the classes content & keyword
-            $( '.clearfloat3' ).each( function ( index ) {
-                // Write needed information as plain text in object
-                data[index] = {
-                    title: $( this ).text()
-                };
-            } );
+			var $ = cheerio.load( body );
 
-            // Set the cache with an expire date of 3600 seconds
-            cache.set( that.name + '_data_event', data, 3600 );
+			// Loop for every element with the classes content & keyword
+			$( '.clearfloat3' ).each( function ( index ) {
+				// Write needed information as plain text in object
+				data[index] = {
+					title: $( this ).text()
+				};
+			} );
 
-            callback( null, data );
-        } );
-    }
+			// Set the cache with an expire date of 3600 seconds
+			cache.set( that.name + '_data_event', data, 3600 );
+
+			callback( null, data );
+		} );
+	}
 };

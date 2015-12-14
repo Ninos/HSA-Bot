@@ -18,7 +18,8 @@ module.exports = {
 	},
 	call: function ( args ) {
 		var that = this,
-			api = require( '../lib/api.js' );
+			api = require( '../lib/api.js' ),
+            moment = require( 'moment' );
 
 		// Get the data object from url/cache with all necessary news information
 		that.getData( function ( error, data ) {
@@ -39,10 +40,21 @@ module.exports = {
 			var content = [];
 			Object.keys( data ).map( function ( key ) {
 				var value = data[key];
+                var date = moment(
+                    value.date.from,
+                    'YYYY-MM-DD'
+                ).format( 'DD.MM.YYYY' );
 
-				content.push( value.title );
+                if( value.date.to ) {
+                    date += ' - ' +  moment(
+                            value.date.to,
+                            'YYYY-MM-DD'
+                        ).format( 'DD.MM.YYYY' )
+                }
+
+				content.push( date + ': ' + value.title );
 			} );
-			console.log( content.join( "\n" ) );
+
 			api.say( args, content.join( "\n" ) );
 		} );
 	},
@@ -50,10 +62,12 @@ module.exports = {
 		var that = this,
 			cache = require( '../lib/cache.js' ),
 			request = require( 'request' ),
-			cheerio = require( 'cheerio' );
+			cheerio = require( 'cheerio' ),
+            moment = require( 'moment' );
 
 		// Return cache if exists and not expired
-		var data = cache.get( that.name + '_data_news' );
+		var cacheName = that.name + '_data',
+            data = cache.get( cacheName );
 		if ( data ) {
 			setImmediate( callback, null, data );
 
@@ -73,15 +87,31 @@ module.exports = {
 			var $ = cheerio.load( body );
 
 			// Loop for every element with the classes content & keyword
-			$( '.clearfloat3' ).each( function ( index ) {
+			$( '#infosystems > a' ).each( function ( index ) {
+                if( ! $( this ).children( 'strong').length ) {
+                    return;
+                }
+
+                var date = $( this ).children( 'strong' ).text().split('-');
+
 				// Write needed information as plain text in object
 				data[index] = {
-					title: $( this ).text()
+					title: $( this ).attr( 'title' ),
+                    date: {
+                        from: moment(
+                            date[0].replace( '\n', '' ).trim(),
+                            'DD.MM.YYYY'
+                        ).format( 'YYYY-MM-DD' ),
+                        to: date[1] !== undefined ? moment(
+                            date[1].replace( '\n', '' ).trim(),
+                            'DD.MM.YYYY'
+                        ).format( 'YYYY-MM-DD' ) : null
+                    }
 				};
 			} );
 
 			// Set the cache with an expire date of 3600 seconds
-			cache.set( that.name + '_data_event', data, 3600 );
+			cache.set( cacheName, 3600 );
 
 			callback( null, data );
 		} );

@@ -21,14 +21,6 @@ module.exports = {
 			'elementID': '{ID}'
 		}
 	},
-	canteens: [
-		'aug_universitaetsstr_uni',
-		'aug_friedbergerstr_fh',
-		'aug_baumgartner_fh',
-		'neuulm_wiley_fh',
-		'neuulm_steubenstr',
-		'kempten_fh'
-	],
 	init: function () {
 		this.hooks();
 

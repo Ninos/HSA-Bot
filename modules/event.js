@@ -21,7 +21,7 @@ module.exports = {
 			api = require( '../lib/api.js' ),
 			moment = require( 'moment' );
 
-		// Get the data object from url/cache with all necessary news information
+		// Get the data object from url/cache with all necessary event information
 		that.getData( function ( error, data ) {
 			if ( error ) {
 				console.error( error );

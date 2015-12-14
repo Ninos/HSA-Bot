@@ -29,10 +29,14 @@ module.exports = {
 	hooks: function () {
 		var that = this,
 			api = require( '../lib/api.js' );
+
+		// DevMode start
 		var args = {
 			param: ['I-IN3', '14.12.2015']
 		};
-		that.call( args )
+		that.call( args );
+		// DevMode end
+
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
 		} );

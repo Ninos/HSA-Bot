@@ -29,9 +29,9 @@ module.exports = {
 				return;
 			}
 
-			// Check if new news exists
+			// Check if new events exists
 			if ( ! data ) {
-				api.say( 'No news available' );
+				api.say( 'No events available' );
 
 				return;
 			}

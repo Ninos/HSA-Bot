@@ -31,10 +31,12 @@ module.exports = {
 			api = require( '../lib/api.js' );
 
 		// DevMode start
+		/*
 		var args = {
 			param: ['I-IN3', '14.12.2015']
 		};
 		that.call( args );
+		*/
 		// DevMode end
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
@@ -95,8 +97,8 @@ module.exports = {
 
 				// Generate output content
 				var content = [];
-				Object.keys( data[date] ).map( function ( key ) {
-					var value = data[date][key];
+				Object.keys( data ).map( function ( key ) {
+					var value = data[key];
 
 					content.push( value.title + ': ' + value.heading + ' ' + value.description );
 				} );

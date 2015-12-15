@@ -38,8 +38,7 @@ module.exports = {
 
 			// Generate output content
 			var content = [];
-			Object.keys( data ).map( function ( key ) {
-				var value = data[key];
+			data.forEach( function ( value ) {
 				var date = moment(
 					value.date.from,
 					'YYYY-MM-DD'

@@ -112,12 +112,8 @@ module.exports = {
 					'DD.MM.YYYY'
 				).format( 'YYYY-MM-DD' );
 
-				// Create second level only, if date data is not initialized
-				if ( ! data[date] ) {
-					data[date] = {};
-				}
-
 				// Write needed informations as paint text in object
+				data[date] = data[date] || {};
 				data[date][id] = {
 					title: $( this ).find( '[data-role="content"] h4' ).text().replace( /\u00AD/g, '' ).trim(),
 					heading: $( this ).find( '[data-role="content"] h4' ).next().text().replace( /\u00AD/g, '' ).trim(),

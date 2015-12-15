@@ -201,10 +201,7 @@ module.exports = {
 					return true;
 				} );
 
-				if ( ! data.plans[value.date] ) {
-					data.plans[value.date] = {};
-				}
-
+				data.plans[value.date] = data.plans[value.date] || {};
 				data.plans[value.date][value.id] = {
 					lessonId: value.lessonId,
 					planId: planId,

@@ -33,15 +33,6 @@ module.exports = {
 		var that = this,
 			api = require( '../lib/api.js' );
 
-		// DevMode start
-
-		var args = {
-			param: ['I-IN3', '15.12.2015']
-		};
-		that.call( args );
-
-		// DevMode end
-
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
 		} );
@@ -120,8 +111,7 @@ module.exports = {
 							'Hmm'
 						).format( 'HH:mm' ) + ': ' + lesson.longName + ' (' + lesson.displayName + ')' );
 				} );
-				console.log( content );
-				return;
+
 				api.say( args, content.join( "\n" ) );
 			} );
 		} );

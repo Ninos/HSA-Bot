@@ -37,7 +37,8 @@ module.exports = {
 
 			// Generate output content
 			var content = [];
-			data.forEach( function ( value ) {
+			Object.keys( data ).map( function ( key ) {
+				var value = data[key];
 				content.push( value.title );
 			} );
 

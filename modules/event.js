@@ -38,11 +38,12 @@ module.exports = {
 
 			// Generate output content
 			var content = [];
-			data.forEach( function ( value ) {
-				var date = moment(
-					value.date.from,
-					'YYYY-MM-DD'
-				).format( 'DD.MM.YYYY' );
+			Object.keys( data ).map( function ( key ) {
+				var value = data[key],
+					date = moment(
+						value.date.from,
+						'YYYY-MM-DD'
+					).format( 'DD.MM.YYYY' );
 
 				if ( value.date.to ) {
 					date += ' - ' + moment(

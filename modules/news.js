@@ -39,7 +39,7 @@ module.exports = {
 			var content = [];
 			Object.keys( data ).map( function ( key ) {
 				var value = data[key];
-				content.push( value.title + " mehr: " + value.hyperlink );
+				content.push( value.title + ' (' + value.link + ')' );
 			} );
 
 			api.say( args, content.join( "\n" ) );
@@ -77,7 +77,7 @@ module.exports = {
 				// Write needed information as plain text in object
 				data[index] = {
 					title: $( this ).find( 'h3' ).text().trim(),
-					hyperlink: "http://www.hs-augsburg.de/" + $( this ).find( 'a' ).attr( 'href' )
+					link: that.url.substring( 0, that.url.lastIndexOf( '/' ) ) + '/' + $( this ).find( 'a' ).attr( 'href' )
 				};
 			} );
 

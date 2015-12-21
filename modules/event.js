@@ -52,7 +52,7 @@ module.exports = {
 						).format( 'DD.MM.YYYY' )
 				}
 
-				content.push( date + ': ' + value.title );
+				content.push( date + ': ' + value.title + ": " + value.hyperlink);
 			} );
 
 			api.say( args, content.join( "\n" ) );
@@ -97,6 +97,7 @@ module.exports = {
 				// Write needed information as plain text in object
 				data[index] = {
 					title: $( this ).attr( 'title' ),
+					hyperlink: "http://www.hs-augsburg.de/" + $( this ).attr( 'href' ),
 					date: {
 						from: moment(
 							date[0].replace( '\n', '' ).trim(),

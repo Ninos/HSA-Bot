@@ -1,5 +1,12 @@
 'use strict';
 
+var api = require( '../lib/api.js' ),
+	cache = require( '../lib/cache.js' ),
+	parse = require( '../lib/parse.js' ),
+	request = require( 'request' ),
+	cheerio = require( 'cheerio' ),
+	moment = require( 'moment' );
+
 module.exports = {
 	name: 'canteen',
 	url: {
@@ -20,17 +27,14 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this,
-			api = require( '../lib/api.js' );
+		var that = this;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
 		} );
 	},
 	call: function ( args ) {
-		var that = this,
-			api = require( '../lib/api.js' ),
-			parse = require( '../lib/parse.js' );
+		var that = this;
 
 		// Check if param 1 is not empty and a valid canteen
 		if ( args.param[0] == undefined || args.param[0] == '' || ! that.isValidCanteen( args.param[0] ) ) {
@@ -72,11 +76,7 @@ module.exports = {
 		} );
 	},
 	getData: function ( canteen, callback ) {
-		var that = this,
-			cache = require( '../lib/cache.js' ),
-			request = require( 'request' ),
-			cheerio = require( 'cheerio' ),
-			moment = require( 'moment' );
+		var that = this;
 
 		if ( ! that.isValidCanteen( canteen ) ) {
 			return;

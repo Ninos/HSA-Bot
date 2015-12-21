@@ -1,5 +1,9 @@
 'use strict';
 
+var api = require( './lib/api.js' ),
+	modules = require( './lib/modules.js' ),
+	apps = require( './lib/apps.js' );
+
 module.exports = {
 	init: function () {
 		this.load();
@@ -8,10 +12,10 @@ module.exports = {
 		return this;
 	},
 	load: function () {
-		var api = require( './lib/api.js' ).init(),
-			modules = require( './lib/modules.js' ).init();
+		api.init();
+		modules.init();
 	},
 	start: function () {
-		var app = require( './app/irc.js' ).init();
+		apps.init();
 	}
 };

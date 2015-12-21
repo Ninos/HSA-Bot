@@ -1,5 +1,10 @@
 'use strict';
 
+var config = require( '../config.js' ),
+	api = require( '../lib/api.js' ),
+	parse = require( '../lib/parse.js' ),
+	irc = require( 'irc' );
+
 module.exports = {
 	client: null,
 	init: function () {
@@ -9,18 +14,12 @@ module.exports = {
 		return this;
 	},
 	connect: function () {
-		var config = require( '../config.js' ),
-			irc = require( 'irc' );
-
 		this.client = new irc.Client( config.irc.server, config.irc.name, {
 			channels: config.irc.channels,
 		} );
 	},
 	hooks: function () {
-		var that = this,
-			config = require( '../config.js' ),
-			api = require( '../lib/api.js' ),
-			parse = require( '../lib/parse.js' );
+		var that = this;
 
 		this.client.addListener( 'message', function ( from, to, message ) {
 			var args = parse.message( message ),

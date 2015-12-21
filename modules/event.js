@@ -1,5 +1,11 @@
 'use strict';
 
+var api = require( '../lib/api.js' ),
+	cache = require( '../lib/cache.js' ),
+	request = require( 'request' ),
+	cheerio = require( 'cheerio' ),
+	moment = require( 'moment' );
+
 module.exports = {
 	name: 'event',
 	url: 'http://www.hs-augsburg.de/index.html',
@@ -9,17 +15,14 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this,
-			api = require( '../lib/api.js' );
+		var that = this;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
 		} );
 	},
 	call: function ( args ) {
-		var that = this,
-			api = require( '../lib/api.js' ),
-			moment = require( 'moment' );
+		var that = this;
 
 		// Get the data object from url/cache with all necessary event information
 		that.getData( function ( error, data ) {
@@ -59,11 +62,7 @@ module.exports = {
 		} );
 	},
 	getData: function ( callback ) {
-		var that = this,
-			cache = require( '../lib/cache.js' ),
-			request = require( 'request' ),
-			cheerio = require( 'cheerio' ),
-			moment = require( 'moment' );
+		var that = this;
 
 		// Return cache if exists and not expired
 		var cacheName = that.name + '_data',

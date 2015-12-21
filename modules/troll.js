@@ -1,5 +1,7 @@
 'use strict';
 
+var api = require( '../lib/api.js' );
+
 module.exports = {
 	name: 'troll',
 	init: function () {
@@ -8,16 +10,13 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this,
-			api = require( '../lib/api.js' );
+		var that = this;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
 		} );
 	},
 	call: function ( args ) {
-		var api = require( '../lib/api.js' );
-
 		if ( args.param[0] == undefined || args.param[0] == '' ) {
 			return;
 		}

@@ -1,5 +1,11 @@
 'use strict';
 
+var api = require( '../lib/api.js' ),
+	cache = require( '../lib/cache.js' ),
+	parse = require( '../lib/parse.js' ),
+	request = require( 'request' ),
+	moment = require( 'moment' );
+
 module.exports = {
 	name: 'schedule',
 	url: 'https://melpomene.webuntis.com/WebUntis/Timetable.do?school=HS-Augsburg',
@@ -30,18 +36,14 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this,
-			api = require( '../lib/api.js' );
+		var that = this;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
 		} );
 	},
 	call: function ( args ) {
-		var that = this,
-			api = require( '../lib/api.js' ),
-			parse = require( '../lib/parse.js' ),
-			moment = require( 'moment' );
+		var that = this;
 
 		// Check if param 1 is not empty (should be semester)
 		if ( args.param[0] == undefined || args.param[0] == '' ) {
@@ -117,9 +119,7 @@ module.exports = {
 		} );
 	},
 	getConfig: function ( callback ) {
-		var that = this,
-			cache = require( '../lib/cache.js' ),
-			request = require( 'request' );
+		var that = this;
 
 		// Return cache if exists and not expired
 		var cacheName = that.name + '_data_config',
@@ -151,10 +151,7 @@ module.exports = {
 		} );
 	},
 	getData: function ( args, callback ) {
-		var that = this,
-			cache = require( '../lib/cache.js' ),
-			request = require( 'request' ),
-			moment = require( 'moment' );
+		var that = this;
 
 		// Return cache if exists and not expired
 		var cacheName = that.name + '_data_' + args.id + '_' + moment(

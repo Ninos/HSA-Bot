@@ -1,6 +1,6 @@
 'use strict';
 
-var api = require( '../lib/api.js' ),
+let api = require( '../lib/api.js' ),
 	cache = require( '../lib/cache.js' ),
 	parse = require( '../lib/parse.js' ),
 	request = require( 'request' ),
@@ -36,14 +36,14 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this;
+		let that = this;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
 		} );
 	},
 	call: function ( args ) {
-		var that = this;
+		let that = this;
 
 		// Check if param 1 is not empty (should be semester)
 		if ( args.param[0] == undefined || args.param[0] == '' ) {
@@ -56,7 +56,7 @@ module.exports = {
 		}
 
 		// Format the input date
-		var date = parse.date( args.param[1], 'YYYYMMDD' );
+		let date = parse.date( args.param[1], 'YYYYMMDD' );
 
 		// Get the data object from url/cache with all nessessary configurations
 		this.getConfig( function ( error, data ) {
@@ -66,7 +66,7 @@ module.exports = {
 				return;
 			}
 
-			var id = null;
+			let id = null;
 			data.every( function ( value ) {
 				if ( args.param[0] == value.name ) {
 					id = value.id;
@@ -100,9 +100,9 @@ module.exports = {
 				}
 
 				// Generate output content
-				var content = [];
+				let content = [];
 				Object.keys( data.plans[date] ).map( function ( key ) {
-					var value = data.plans[date][key],
+					let value = data.plans[date][key],
 						lesson = data.lessons[value.planId];
 
 					content.push( moment(
@@ -119,10 +119,10 @@ module.exports = {
 		} );
 	},
 	getConfig: function ( callback ) {
-		var that = this;
+		let that = this;
 
 		// Return cache if exists and not expired
-		var cacheName = that.name + '_data_config',
+		let cacheName = that.name + '_data_config',
 			data = cache.get( cacheName );
 		if ( data ) {
 			setImmediate( callback, null, data );
@@ -157,10 +157,10 @@ module.exports = {
 		} );
 	},
 	getData: function ( args, callback ) {
-		var that = this;
+		let that = this;
 
 		// Return cache if exists and not expired
-		var cacheName = that.name + '_data_' + args.id + '_' + moment(
+		let cacheName = that.name + '_data_' + args.id + '_' + moment(
 				args.date,
 				'YYYYMMDD'
 				).format( 'GGGGWW' ),
@@ -194,12 +194,12 @@ module.exports = {
 				return;
 			}
 
-			var plans = body.result.data.elementPeriods[args.id],
+			let plans = body.result.data.elementPeriods[args.id],
 				lessons = body.result.data.elements;
 
 			data.plans = {};
 			plans.forEach( function ( value ) {
-				var planId = null;
+				let planId = null;
 				value.elements.every( function ( value ) {
 					if ( value.type == 3 ) {
 						planId = value.id;

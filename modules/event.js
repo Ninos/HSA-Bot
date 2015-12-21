@@ -1,6 +1,6 @@
 'use strict';
 
-var api = require( '../lib/api.js' ),
+let api = require( '../lib/api.js' ),
 	cache = require( '../lib/cache.js' ),
 	request = require( 'request' ),
 	cheerio = require( 'cheerio' ),
@@ -15,14 +15,14 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this;
+		let that = this;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
 		} );
 	},
 	call: function ( args ) {
-		var that = this;
+		let that = this;
 
 		// Get the data object from url/cache with all necessary event information
 		that.getData( function ( error, data ) {
@@ -40,9 +40,9 @@ module.exports = {
 			}
 
 			// Generate output content
-			var content = [];
+			let content = [];
 			Object.keys( data ).map( function ( key ) {
-				var value = data[key],
+				let value = data[key],
 					date = moment(
 						value.date.from,
 						'YYYY-MM-DD'
@@ -62,10 +62,10 @@ module.exports = {
 		} );
 	},
 	getData: function ( callback ) {
-		var that = this;
+		let that = this;
 
 		// Return cache if exists and not expired
-		var cacheName = that.name + '_data',
+		let cacheName = that.name + '_data',
 			data = cache.get( cacheName );
 		if ( data ) {
 			setImmediate( callback, null, data );
@@ -89,7 +89,7 @@ module.exports = {
 				return;
 			}
 
-			var $ = cheerio.load( body );
+			let $ = cheerio.load( body );
 
 			// Loop for every element with the classes content & keyword
 			$( '#infosystems > a' ).each( function ( index ) {
@@ -97,7 +97,7 @@ module.exports = {
 					return;
 				}
 
-				var date = $( this ).children( 'strong' ).text().split( '-' );
+				let date = $( this ).children( 'strong' ).text().split( '-' );
 
 				// Write needed information as plain text in object
 				data[index] = {

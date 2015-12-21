@@ -1,6 +1,6 @@
 'use strict';
 
-var api = require( '../lib/api.js' );
+let api = require( '../lib/api.js' );
 
 module.exports = {
 	name: 'reminder',
@@ -10,7 +10,7 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this;
+		let that = this;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
@@ -25,11 +25,11 @@ module.exports = {
 			return;
 		}
 
-		var seconds = args.param[0] * 1000;
+		let seconds = args.param[0] * 1000;
 
-		var param = args.param.slice();
+		let param = args.param.slice();
 		param.splice( 0, 1 );
-		var content = param.join( ' ' );
+		let content = param.join( ' ' );
 
 		setTimeout( function () {
 			api.say( args, content );

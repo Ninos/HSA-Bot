@@ -1,6 +1,6 @@
 'use strict';
 
-var api = require( '../lib/api.js' ),
+let api = require( '../lib/api.js' ),
 	cache = require( '../lib/cache.js' ),
 	request = require( 'request' ),
 	cheerio = require( 'cheerio' );
@@ -14,14 +14,14 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this;
+		let that = this;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
 		} );
 	},
 	call: function ( args ) {
-		var that = this;
+		let that = this;
 
 		// Get the data object from url/cache with all necessary news information
 		that.getData( function ( error, data ) {
@@ -39,9 +39,9 @@ module.exports = {
 			}
 
 			// Generate output content
-			var content = [];
+			let content = [];
 			Object.keys( data ).map( function ( key ) {
-				var value = data[key];
+				let value = data[key];
 				content.push( value.title + ' (' + value.link + ')' );
 			} );
 
@@ -49,10 +49,10 @@ module.exports = {
 		} );
 	},
 	getData: function ( callback ) {
-		var that = this;
+		let that = this;
 
 		// Return cache if exists and not expired
-		var cacheName = that.name + '_data',
+		let cacheName = that.name + '_data',
 			data = cache.get( cacheName );
 		if ( data ) {
 			setImmediate( callback, null, data );
@@ -76,7 +76,7 @@ module.exports = {
 				return;
 			}
 
-			var $ = cheerio.load( body );
+			let $ = cheerio.load( body );
 
 			// Loop for every element with the classes content & keyword
 			$( '#content .px131' ).each( function ( index ) {

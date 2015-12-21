@@ -1,6 +1,6 @@
 'use strict';
 
-var api = require( '../lib/api.js' ),
+let api = require( '../lib/api.js' ),
 	modules = require( '../lib/modules.js' );
 
 module.exports = {
@@ -12,19 +12,19 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this;
+		let that = this;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
 		} );
 	},
 	call: function ( args ) {
-		var that = this,
+		let that = this,
 			mods = modules.get();
 
-		var content = [];
+		let content = [];
 		Object.keys( mods ).map( function ( key ) {
-			var value = mods[key];
+			let value = mods[key];
 
 			if ( value.name != that.name ) {
 				content.push( that.name + ' ' + value.name );

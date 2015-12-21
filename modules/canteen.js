@@ -1,6 +1,6 @@
 'use strict';
 
-var api = require( '../lib/api.js' ),
+let api = require( '../lib/api.js' ),
 	cache = require( '../lib/cache.js' ),
 	parse = require( '../lib/parse.js' ),
 	request = require( 'request' ),
@@ -27,14 +27,14 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this;
+		let that = this;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
 		} );
 	},
 	call: function ( args ) {
-		var that = this;
+		let that = this;
 
 		// Check if param 1 is not empty and a valid canteen
 		if ( args.param[0] == undefined || args.param[0] == '' || ! that.isValidCanteen( args.param[0] ) ) {
@@ -55,7 +55,7 @@ module.exports = {
 			}
 
 			// Format the input date
-			var date = parse.date( args.param[1], 'YYYY-MM-DD' );
+			let date = parse.date( args.param[1], 'YYYY-MM-DD' );
 
 			// Check if a menu exists for the inputted date
 			if ( ! data[date] ) {
@@ -65,9 +65,9 @@ module.exports = {
 			}
 
 			// Generate output content
-			var content = [];
+			let content = [];
 			Object.keys( data[date] ).map( function ( key ) {
-				var value = data[date][key];
+				let value = data[date][key];
 
 				content.push( value.title + ': ' + value.heading + ' ' + value.description );
 			} );
@@ -76,14 +76,14 @@ module.exports = {
 		} );
 	},
 	getData: function ( canteen, callback ) {
-		var that = this;
+		let that = this;
 
 		if ( ! that.isValidCanteen( canteen ) ) {
 			return;
 		}
 
 		// Return cache if exists and not expired
-		var cacheName = that.name + '_data_' + canteen,
+		let cacheName = that.name + '_data_' + canteen,
 			data = cache.get( cacheName );
 		if ( data ) {
 			setImmediate( callback, null, data );
@@ -107,13 +107,13 @@ module.exports = {
 				return;
 			}
 
-			var $ = cheerio.load( body );
+			let $ = cheerio.load( body );
 
 			// Loop for every element with the classes page & details
 			$( '.page.details' ).each( function () {
 				// Get the menu id and parse the date into well formatted string
-				var id = $( this ).attr( 'id' ).split( '_' ).pop();
-				var date = moment(
+				let id = $( this ).attr( 'id' ).split( '_' ).pop();
+				let date = moment(
 					$( this ).find( '[data-role="header"] .essendetail' ).text().split( ', ' ).pop(),
 					'DD.MM.YYYY'
 				).format( 'YYYY-MM-DD' );

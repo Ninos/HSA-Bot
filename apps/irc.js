@@ -1,6 +1,6 @@
 'use strict';
 
-var config = require( '../config.js' ),
+let config = require( '../config.js' ),
 	api = require( '../lib/api.js' ),
 	parse = require( '../lib/parse.js' ),
 	irc = require( 'irc' );
@@ -19,10 +19,10 @@ module.exports = {
 		} );
 	},
 	hooks: function () {
-		var that = this;
+		let that = this;
 
 		this.client.addListener( 'message', function ( from, to, message ) {
-			var args = parse.message( message ),
+			let args = parse.message( message ),
 				mention = args.mention,
 				module = args.module,
 				param = args.param;
@@ -41,7 +41,7 @@ module.exports = {
 		} );
 
 		this.client.addListener( 'pm', function ( from, message ) {
-			var args = parse.pm( message ),
+			let args = parse.pm( message ),
 				module = args.module,
 				param = args.param;
 

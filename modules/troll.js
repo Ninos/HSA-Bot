@@ -1,6 +1,6 @@
 'use strict';
 
-var api = require( '../lib/api.js' );
+let api = require( '../lib/api.js' );
 
 module.exports = {
 	name: 'troll',
@@ -10,7 +10,7 @@ module.exports = {
 		return this;
 	},
 	hooks: function () {
-		var that = this;
+		let that = this;
 
 		api.event.addListener( 'message_' + this.name, function ( args ) {
 			that.call( args );
@@ -25,14 +25,14 @@ module.exports = {
 			return;
 		}
 
-		var to = args.param[0];
+		let to = args.param[0];
 		if ( to.substring( 0, 1 ) == '@' ) {
 			to = to.substring( 1 );
 		}
 
-		var param = args.param.slice();
+		let param = args.param.slice();
 		param.splice( 0, 1 );
-		var content = param.join( ' ' );
+		let content = param.join( ' ' );
 
 		args.from = null;
 		args.to = to;

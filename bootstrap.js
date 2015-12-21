@@ -1,6 +1,6 @@
 'use strict';
 
-var api = require( './lib/api.js' ),
+let api = require( './lib/api.js' ),
 	modules = require( './lib/modules.js' ),
 	apps = require( './lib/apps.js' );
 

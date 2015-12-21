@@ -136,8 +136,14 @@ module.exports = {
 			form: that.urlParam.config,
 			json: true
 		}, function ( error, response, body ) {
-			if ( error || response.statusCode != 200 ) {
+			if ( error ) {
 				callback( error );
+
+				return;
+			}
+
+			if ( response.statusCode != 200 ) {
+				callback( new Error( 'Connection status ' + response.statusCode + ': Expected response code 200' ) );
 
 				return;
 			}
@@ -176,8 +182,14 @@ module.exports = {
 			form: that.urlParam.weekly,
 			json: true
 		}, function ( error, response, body ) {
-			if ( error || response.statusCode != 200 ) {
+			if ( error ) {
 				callback( error );
+
+				return;
+			}
+
+			if ( response.statusCode != 200 ) {
+				callback( new Error( 'Connection status ' + response.statusCode + ': Expected response code 200' ) );
 
 				return;
 			}

@@ -7,6 +7,10 @@ let api = require( '../lib/api.js' ),
 
 module.exports = {
 	name: 'news',
+	description: 'This module returns the current news',
+	help: [
+		'No param needed'
+	],
 	url: 'http://www.hs-augsburg.de/index.html',
 	init: function () {
 		this.hooks();
@@ -26,14 +30,14 @@ module.exports = {
 		// Get the data object from url/cache with all necessary news information
 		that.getData( function ( error, data ) {
 			if ( error ) {
-				console.error( error );
+				api.say( args, error );
 
 				return;
 			}
 
 			// Check if new news exists
 			if ( ! data ) {
-				api.say( 'No news available' );
+				api.say( args, new Error( 'No news available' ) );
 
 				return;
 			}
@@ -71,7 +75,7 @@ module.exports = {
 			}
 
 			if ( response.statusCode != 200 ) {
-				callback( new Error( 'Connection status ' + response.statusCode + ': Expected response code 200' ) );
+				callback( new Error( 'Unexpected response code', 'Connection status ' + response.statusCode + ': Expected response code 200' ) );
 
 				return;
 			}

@@ -4,6 +4,11 @@ let api = require( '../lib/api.js' );
 
 module.exports = {
 	name: 'reminder',
+	description: 'With this module you can set a reminder',
+	help: [
+		'param 1: time in sec',
+		'param 2: content'
+	],
 	init: function () {
 		this.hooks();
 
@@ -18,10 +23,14 @@ module.exports = {
 	},
 	call: function ( args ) {
 		if ( args.param[0] == undefined || args.param[0] == '' ) {
+			api.say( args, new Error( 'Not valid time' ) );
+
 			return;
 		}
 
 		if ( args.param[1] == undefined || args.param[1] == '' ) {
+			api.say( args, new Error( 'Not valid content' ) );
+
 			return;
 		}
 

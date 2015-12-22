@@ -9,6 +9,11 @@ let api = require( '../lib/api.js' ),
 
 module.exports = {
 	name: 'canteen',
+	description: 'This module returns the current menus',
+	help: [
+		'param 1: canteen',
+		'param 2: date'
+	],
 	url: {
 		canteens: 'http://augsburg.my-mensa.de/chooser.php?v=4828283&hyp=1&lang=de&mensa=all',
 		details: 'http://augsburg.my-mensa.de/details.php?v=4828271&hyp=1&lang=de&mensa='
@@ -38,18 +43,22 @@ module.exports = {
 
 		// Check if param 1 is not empty and a valid canteen
 		if ( args.param[0] == undefined || args.param[0] == '' || ! that.isValidCanteen( args.param[0] ) ) {
+			api.say( args, new Error( 'Not valid canteen' ) );
+
 			return;
 		}
 
 		// Check if param 2 is not empty (should be a date)
 		if ( args.param[1] == undefined || args.param[1] == '' ) {
+			api.say( args, new Error( 'Not valid date' ) );
+
 			return;
 		}
 
 		// Get the data object from url/cache with all nessessary menu informations
 		that.getData( args.param[0], function ( error, data ) {
 			if ( error ) {
-				console.error( error );
+				api.say( args, error );
 
 				return;
 			}
@@ -59,7 +68,7 @@ module.exports = {
 
 			// Check if a menu exists for the inputted date
 			if ( ! data[date] ) {
-				api.say( args, 'Sorry, for that date a menu does not exists!' );
+				api.say( args, new Error( 'Sorry, for that date a menu does not exists!' ) );
 
 				return;
 			}
@@ -102,7 +111,7 @@ module.exports = {
 			}
 
 			if ( response.statusCode != 200 ) {
-				callback( new Error( 'Connection status ' + response.statusCode + ': Expected response code 200' ) );
+				callback( new Error( 'Unexpected response code', 'Connection status ' + response.statusCode + ': Expected response code 200' ) );
 
 				return;
 			}

@@ -8,6 +8,11 @@ let api = require( '../lib/api.js' ),
 
 module.exports = {
 	name: 'schedule',
+	description: 'This module returns the current schedule',
+	help: [
+		'param 1: semester',
+		'param 2: date'
+	],
 	url: 'https://melpomene.webuntis.com/WebUntis/Timetable.do?school=HS-Augsburg',
 	urlParam: {
 		config: {
@@ -47,11 +52,15 @@ module.exports = {
 
 		// Check if param 1 is not empty (should be semester)
 		if ( args.param[0] == undefined || args.param[0] == '' ) {
+			api.say( args, new Error( 'Not valid semester' ) );
+
 			return;
 		}
 
 		// Check if param 2 is not empty (should be a date)
 		if ( args.param[1] == undefined || args.param[1] == '' ) {
+			api.say( args, new Error( 'Not valid date' ) );
+
 			return;
 		}
 
@@ -61,7 +70,7 @@ module.exports = {
 		// Get the data object from url/cache with all nessessary configurations
 		this.getConfig( function ( error, data ) {
 			if ( error ) {
-				console.error( error );
+				api.say( args, error );
 
 				return;
 			}
@@ -79,7 +88,7 @@ module.exports = {
 
 			// Check if semester was found
 			if ( ! id ) {
-				api.say( args, 'Sorry, semester not found!' );
+				api.say( args, new Error( 'Semester not found' ) );
 
 				return;
 			}
@@ -94,7 +103,7 @@ module.exports = {
 
 				// Check if a menu exists for the inputted date
 				if ( ! data.plans[date] ) {
-					api.say( args, 'Sorry, for that date a plan does not exists!' );
+					api.say( args, new Error( 'For that date a plan does not exists' ) );
 
 					return;
 				}
@@ -143,7 +152,7 @@ module.exports = {
 			}
 
 			if ( response.statusCode != 200 ) {
-				callback( new Error( 'Connection status ' + response.statusCode + ': Expected response code 200' ) );
+				callback( new Error( 'Unexpected response code', 'Connection status ' + response.statusCode + ': Expected response code 200' ) );
 
 				return;
 			}
@@ -189,7 +198,7 @@ module.exports = {
 			}
 
 			if ( response.statusCode != 200 ) {
-				callback( new Error( 'Connection status ' + response.statusCode + ': Expected response code 200' ) );
+				callback( new Error( 'Unexpected response code', 'Connection status ' + response.statusCode + ': Expected response code 200' ) );
 
 				return;
 			}

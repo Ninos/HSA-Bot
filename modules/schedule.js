@@ -96,7 +96,7 @@ module.exports = {
 			// Get the data object from url/cache with all nessessary menu informations
 			that.getData( {id: id, date: date}, function ( error, data ) {
 				if ( error ) {
-					console.error( error );
+					api.say( args, error );
 
 					return;
 				}

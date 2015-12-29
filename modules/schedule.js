@@ -52,14 +52,14 @@ module.exports = {
 
 		// Check if param 1 is not empty (should be semester)
 		if ( args.param[0] == undefined || args.param[0] == '' ) {
-			api.say( args, new Error( 'Not valid semester' ) );
+			api.error( 'validation', args, new Error( 'Not valid semester' ) );
 
 			return;
 		}
 
 		// Check if param 2 is not empty (should be a date)
 		if ( args.param[1] == undefined || args.param[1] == '' ) {
-			api.say( args, new Error( 'Not valid date' ) );
+			api.error( 'validation', args, new Error( 'Not valid date' ) );
 
 			return;
 		}
@@ -70,7 +70,7 @@ module.exports = {
 		// Get the data object from url/cache with all nessessary configurations
 		this.getConfig( function ( error, data ) {
 			if ( error ) {
-				api.say( args, error );
+				api.error( 'system', args, error );
 
 				return;
 			}
@@ -88,7 +88,7 @@ module.exports = {
 
 			// Check if semester was found
 			if ( ! id ) {
-				api.say( args, new Error( 'Semester not found' ) );
+				api.error( 'validation', args, new Error( 'Semester not found' ) );
 
 				return;
 			}
@@ -96,14 +96,14 @@ module.exports = {
 			// Get the data object from url/cache with all nessessary menu informations
 			that.getData( {id: id, date: date}, function ( error, data ) {
 				if ( error ) {
-					api.say( args, error );
+					api.error( 'system', args, error );
 
 					return;
 				}
 
 				// Check if a menu exists for the inputted date
 				if ( ! data.plans[date] ) {
-					api.say( args, new Error( 'For that date a plan does not exists' ) );
+					api.error( 'validation', args, new Error( 'For that date a plan does not exists' ) );
 
 					return;
 				}

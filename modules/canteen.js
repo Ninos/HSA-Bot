@@ -43,14 +43,14 @@ module.exports = {
 
 		// Check if param 1 is not empty and a valid canteen
 		if ( args.param[0] == undefined || args.param[0] == '' || ! that.isValidCanteen( args.param[0] ) ) {
-			api.say( args, new Error( 'Not valid canteen' ) );
+			api.error( 'validation', args, new Error( 'Not valid canteen' ) );
 
 			return;
 		}
 
 		// Check if param 2 is not empty (should be a date)
 		if ( args.param[1] == undefined || args.param[1] == '' ) {
-			api.say( args, new Error( 'Not valid date' ) );
+			api.error( 'validation', args, new Error( 'Not valid date' ) );
 
 			return;
 		}
@@ -58,7 +58,7 @@ module.exports = {
 		// Get the data object from url/cache with all nessessary menu informations
 		that.getData( args.param[0], function ( error, data ) {
 			if ( error ) {
-				api.say( args, error );
+				api.error( 'system', args, error );
 
 				return;
 			}
@@ -68,7 +68,7 @@ module.exports = {
 
 			// Check if a menu exists for the inputted date
 			if ( ! data[date] ) {
-				api.say( args, new Error( 'Sorry, for that date a menu does not exists!' ) );
+				api.error( 'validation', args, new Error( 'Sorry, for that date a menu does not exists!' ) );
 
 				return;
 			}

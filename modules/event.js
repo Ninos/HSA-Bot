@@ -31,14 +31,14 @@ module.exports = {
 		// Get the data object from url/cache with all necessary event information
 		that.getData( function ( error, data ) {
 			if ( error ) {
-				api.say( args, error );
+				api.error( 'system', args, error );
 
 				return;
 			}
 
 			// Check if new events exists
 			if ( ! data ) {
-				api.say( args, new Error( 'No events available' ) );
+				api.error( 'validation', args, new Error( 'No events available' ) );
 
 				return;
 			}

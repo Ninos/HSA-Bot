@@ -59,7 +59,7 @@ module.exports = {
 
 			api.say( args, content.join( "\n" ) );
 		} else {
-			api.say( args, new Error( 'Module not found' ) );
+			api.error( 'validation', args, new Error( 'Module not found' ) );
 		}
 	},
 	catch: function ( args ) {
@@ -69,6 +69,6 @@ module.exports = {
 			return;
 		}
 
-		api.say( args, new Error( 'Module not found. Type help for more informations.' ) );
+		api.error( 'validation', args, new Error( 'Module not found. Type help for more informations.' ) );
 	}
 };

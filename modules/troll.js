@@ -6,8 +6,8 @@ module.exports = {
 	name: 'troll',
 	description: 'With this module it\'s possible to troll other users and chatrooms',
 	help: [
-			'param 1: recipient (chatroom or user)',
-			'param 2: content'
+		'param 1: recipient (chatroom or user)',
+		'param 2: content'
 	],
 	init: function () {
 		this.hooks();
@@ -23,13 +23,13 @@ module.exports = {
 	},
 	call: function ( args ) {
 		if ( args.param[0] == undefined || args.param[0] == '' ) {
-			api.say( args, new Error( 'Not valid recipient' ) );
+			api.error( 'validation', args, new Error( 'Not valid recipient' ) );
 
 			return;
 		}
 
 		if ( args.param[1] == undefined || args.param[1] == '' ) {
-			api.say( args, new Error( 'Not valid content' ) );
+			api.error( 'validation', args, new Error( 'Not valid content' ) );
 
 			return;
 		}

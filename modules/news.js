@@ -30,14 +30,14 @@ module.exports = {
 		// Get the data object from url/cache with all necessary news information
 		that.getData( function ( error, data ) {
 			if ( error ) {
-				api.say( args, error );
+				api.error( 'system', args, error );
 
 				return;
 			}
 
 			// Check if new news exists
 			if ( ! data ) {
-				api.say( args, new Error( 'No news available' ) );
+				api.error( 'validation', args, new Error( 'No news available' ) );
 
 				return;
 			}

@@ -18,12 +18,12 @@ If you want to craete own modules, just copy them into the modules folder.
 ## Contributions
 @Ninos
 - Core
--- Design
--- Apps:IRC
--- Lib:Api
--- Lib:Apps
--- Lib:Modules
--- Lib:Parse
+	- Design
+	- Apps:IRC
+	- Lib:Api
+	- Lib:Apps
+	- Lib:Modules
+	- Lib:Parse
 - Module:Schedule (helped)
 - Module:Canteen (helped)
 - Test:Parse
@@ -31,10 +31,10 @@ If you want to craete own modules, just copy them into the modules folder.
 
 @Viggyy
 - Core
--- Design
--- Apps:IRC (helped)
--- Lib:Cache
--- Lib:Parse (helped)
+	- Design
+	- Apps:IRC (helped)
+	- Lib:Cache
+	- Lib:Parse (helped)
 - Module:Schedule
 - Test:Cache
 

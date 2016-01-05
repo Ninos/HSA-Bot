@@ -16,7 +16,7 @@ All modules can be found under `/modules/`. Just open them and read the descript
 If you want to craete own modules, just copy them into the modules folder.
 
 ## Contributions
-@Ninos
+<@Ninos>
 - Core
 	- Design
 	- Apps:IRC
@@ -29,7 +29,7 @@ If you want to craete own modules, just copy them into the modules folder.
 - Test:Parse
 - Reviewing
 
-@Viggyy
+<@Viggyy>
 - Core
 	- Design
 	- Apps:IRC (helped)
@@ -38,13 +38,13 @@ If you want to craete own modules, just copy them into the modules folder.
 - Module:Schedule
 - Test:Cache
 
-@dennisrockstein
+<@dennisrockstein>
 - Module:Canteen
 - Module:Event
 - Module:News
 - Test:Modules
 
-@quelie
+<@quelie>
 - Module:Reminder
 
 ## Contributors

@@ -9,6 +9,8 @@ module.exports = {
 		'param 1: time in sec',
 		'param 2: content'
 	],
+	timers: [],
+	timed: [],
 	init: function () {
 		this.hooks();
 
@@ -22,6 +24,8 @@ module.exports = {
 		} );
 	},
 	call: function ( args ) {
+		let that = this;
+
 		if ( args.param[0] == undefined || args.param[0] == '' ) {
 			api.error( 'validation', args, new Error( 'Not valid time' ) );
 
@@ -40,8 +44,27 @@ module.exports = {
 		param.splice( 0, 1 );
 		let content = param.join( ' ' );
 
-		setTimeout( function () {
+		let timer = setTimeout( function () {
+			that.timed.push( timer );
+
 			api.say( args, content );
 		}, seconds );
+
+		this.timers.push( args.param[0] + args.param[1] );
+
+		for ( var i = 0; i < this.timed.length; i ++ ) {
+			if ( this.timers[i] == this.timed[i] ) {
+				this.timers[i] == this.timers[i + 1];
+			}
+		}
+	},
+	cancelTimer: function ( timer ) {
+		clearTimeout( timer );
+	},
+	showTimer: function () {
+		api.say( args, timers );
+	},
+	showTimed: function () {
+		api.say( args, timed );
 	}
 };

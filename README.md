@@ -13,7 +13,7 @@ Configuration can be done in `config.js`
 
 ## Modules
 All modules can be found under `/modules/`. Just open them and read the description or call `@HSA-Bot help`.
-If you want to craete own modules, just copy them into the modules folder.
+If you want to create your own modules, just copy them into the modules folder.
 
 ## Contributions
 <@Ninos>

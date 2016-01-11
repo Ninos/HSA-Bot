@@ -26,6 +26,14 @@ module.exports = {
 		'neuulm_steubenstr',
 		'kempten_fh'
 	],
+	canteenAlias: {
+		aug_universitaetsstr_uni: 'UNIAugburg',
+		aug_friedbergerstr_fh: 'HSARotesTor',
+		aug_baumgartner_fh: 'HSABrunnenlech',
+		neuulm_wiley_fh: 'HSNUWiley',
+		neuulm_steubenstr: 'HSNUSteubenstraße',
+		kempten_fh: 'HSKempten'
+	},
 	init: function () {
 		this.hooks();
 
@@ -39,10 +47,11 @@ module.exports = {
 		} );
 	},
 	call: function ( args ) {
-		let that = this;
+		let that = this,
+			canteen = that.getCanteenByValue( args.param[0] );
 
 		// Check if param 1 is not empty and a valid canteen
-		if ( args.param[0] == undefined || args.param[0] == '' || ! that.isValidCanteen( args.param[0] ) ) {
+		if ( canteen == undefined || canteen == '' || ! that.isValidCanteen( canteen ) ) {
 			api.error( 'validation', args, new Error( 'Not valid canteen' ) );
 
 			return;
@@ -56,7 +65,7 @@ module.exports = {
 		}
 
 		// Get the data object from url/cache with all nessessary menu informations
-		that.getData( args.param[0], function ( error, data ) {
+		that.getData( canteen, function ( error, data ) {
 			if ( error ) {
 				api.error( 'system', args, error );
 
@@ -141,6 +150,25 @@ module.exports = {
 
 			callback( null, data );
 		} );
+	},
+	getCanteenByValue: function ( canteen ) {
+		let that = this;
+
+		if ( canteen == undefined || canteen == '' ) {
+			return canteen;
+		}
+
+		if ( this.isValidCanteen( canteen ) ) {
+			return canteen;
+		}
+
+		return Object.keys( this.canteenAlias ).filter( function ( key ) {
+			if ( parse.isMentioned( canteen, that.canteenAlias[key] ) ) {
+				return true;
+			}
+
+			return false;
+		} )[0];
 	},
 	isValidCanteen: function ( canteen ) {
 		return (

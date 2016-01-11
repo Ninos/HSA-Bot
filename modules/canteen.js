@@ -27,7 +27,7 @@ module.exports = {
 		'kempten_fh'
 	],
 	canteenAlias: {
-		aug_universitaetsstr_uni: 'UNIAugburg',
+		aug_universitaetsstr_uni: 'UNIAugsburg',
 		aug_friedbergerstr_fh: 'HSARotesTor',
 		aug_baumgartner_fh: 'HSABrunnenlech',
 		neuulm_wiley_fh: 'HSNUWiley',

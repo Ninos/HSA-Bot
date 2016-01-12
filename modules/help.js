@@ -69,6 +69,6 @@ module.exports = {
 			return;
 		}
 
-		api.error( 'validation', args, new Error( 'Module not found. Type help for more informations.' ) );
+		api.error( 'validation', args, new Error( 'Module not found. Type help for more information.' ) );
 	}
 };

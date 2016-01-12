@@ -52,14 +52,14 @@ module.exports = {
 
 		// Check if param 1 is not empty (should be semester)
 		if ( args.param[0] == undefined || args.param[0] == '' ) {
-			api.error( 'validation', args, new Error( 'Not valid semester' ) );
+			api.error( 'validation', args, new Error( 'No valid semester' ) );
 
 			return;
 		}
 
 		// Check if param 2 is not empty (should be a date)
 		if ( args.param[1] == undefined || args.param[1] == '' ) {
-			api.error( 'validation', args, new Error( 'Not valid date' ) );
+			api.error( 'validation', args, new Error( 'No valid date' ) );
 
 			return;
 		}
@@ -103,7 +103,7 @@ module.exports = {
 
 				// Check if a menu exists for the inputted date
 				if ( ! data.plans[date] ) {
-					api.error( 'validation', args, new Error( 'For that date a plan does not exists' ) );
+					api.error( 'validation', args, new Error( 'Sorry, for that date no plan exists' ) );
 
 					return;
 				}

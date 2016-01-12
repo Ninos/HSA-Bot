@@ -27,13 +27,13 @@ module.exports = {
 		let that = this;
 
 		if ( args.param[0] == undefined || args.param[0] == '' ) {
-			api.error( 'validation', args, new Error( 'Not valid time' ) );
+			api.error( 'validation', args, new Error( 'No valid time' ) );
 
 			return;
 		}
 
 		if ( args.param[1] == undefined || args.param[1] == '' ) {
-			api.error( 'validation', args, new Error( 'Not valid content' ) );
+			api.error( 'validation', args, new Error( 'No valid content' ) );
 
 			return;
 		}

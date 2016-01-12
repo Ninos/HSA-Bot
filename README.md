@@ -24,8 +24,10 @@ If you want to create your own modules, just copy them into the modules folder.
 	- Lib:Apps
 	- Lib:Modules
 	- Lib:Parse
-- Module:Schedule (helped)
 - Module:Canteen (helped)
+- Module:Help
+- Module:Schedule (helped)
+- Module:Troll
 - Test:Parse
 - Reviewing
 

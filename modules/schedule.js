@@ -103,7 +103,7 @@ module.exports = {
 
 				// Check if a menu exists for the inputted date
 				if ( ! data.plans[date] ) {
-					api.error( 'validation', args, new Error( 'Sorry, for that date no plan exists' ) );
+					api.error( 'validation', args, new Error( 'For that date no plan exists' ) );
 
 					return;
 				}

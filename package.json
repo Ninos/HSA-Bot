@@ -1,6 +1,6 @@
 {
   "name": "HSA-Bot",
-  "description": "Bot for IRC with basic functionalities. This bot is coded modular and can be later used for other schools, companies and organizations.",
+  "description": "Bot for IRC with basic functionalities. This bot is coded modular and can be used for other schools, companies and organizations.",
   "version": "1.0.0",
   "author": "HSA-Group",
   "contributors": [

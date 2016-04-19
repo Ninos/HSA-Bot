@@ -1,7 +1,7 @@
 # HSA-Bot
 
 ## Description
-Bot for IRC with basic functionalities. This bot is coded modular and can be later used for other schools, companies and organizations.
+Bot for IRC with basic functionalities. This bot is coded modular and can be used for other schools, companies and organizations.
 
 ## Installation
 ```npm install irc```
